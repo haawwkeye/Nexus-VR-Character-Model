@@ -1,1 +1,5 @@
 sourcemap.json
+
+*.rbxlx
+*.lock
+jq.*

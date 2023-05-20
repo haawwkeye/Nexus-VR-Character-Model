@@ -7,3 +7,7 @@
 [submodule "module/Nexus-VR-Core"]
 	path = module/Nexus-VR-Core
 	url = https://github.com/TheNexusAvenger/Nexus-VR-Core.git
+[submodule "src/NexusVRCharacterModelClientLoader/VirtualKeyboard"]
+	path = src/NexusVRCharacterModelClientLoader/VirtualKeyboard
+	url = https://github.com/haawwkeye/VirtualKeyboard.git
+
