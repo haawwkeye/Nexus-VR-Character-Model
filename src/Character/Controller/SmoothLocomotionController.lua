@@ -6,6 +6,7 @@ Local character controller using teleporting.
 --!strict
 
 local THUMBSTICK_MANUAL_ROTATION_ANGLE = math.rad(45)
+local THUMBSTICK_SMOOTH_ROTATION_ANGLE = math.rad(2.5)
 local THUMBSTICK_DEADZONE_RADIUS = 0.2
 
 
@@ -17,6 +18,10 @@ local NexusVRCharacterModel = script.Parent.Parent.Parent
 local NexusVRCharacterModelApi = require(NexusVRCharacterModel).Api
 local BaseController = require(script.Parent:WaitForChild("BaseController"))
 local VRInputService = require(NexusVRCharacterModel:WaitForChild("State"):WaitForChild("VRInputService")).GetInstance()
+
+function GetUserGameSetting(setting : string) : any
+    return UserSettings():GetService("UserGameSettings")[setting];
+end
 
 local SmoothLocomotionController = {}
 SmoothLocomotionController.__index = SmoothLocomotionController
@@ -90,19 +95,23 @@ function SmoothLocomotionController:UpdateCharacter(): ()
     --Snap rotate the character.
     if not self.Character.Humanoid.Sit then
         --Update and fetch the right joystick's state.
-        local DirectionState, _, StateChange = self:GetJoystickState(self.JoystickState)
+        local DirectionState, RadiusState, StateChange = self:GetJoystickState(self.JoystickState)
+
+        local SmoothRotation = GetUserGameSetting("VRSmoothRotationEnabled");
+        local State = if SmoothRotation == true then RadiusState else StateChange;
+        local MANUAL_ROTATION_ANGLE = if SmoothRotation == true then THUMBSTICK_SMOOTH_ROTATION_ANGLE else THUMBSTICK_MANUAL_ROTATION_ANGLE;
 
         --Snap rotate the character.
         local HumanoidRootPart = self.Character.Parts.HumanoidRootPart
-        if StateChange == "Extended" and RightHandInputActive then
+        if State == "Extended" and RightHandInputActive then
             if DirectionState == "Left" then
                 --Turn the player to the left.
-                self:PlayBlur()
-                HumanoidRootPart.CFrame = CFrame.new(HumanoidRootPart.Position) * CFrame.Angles(0, THUMBSTICK_MANUAL_ROTATION_ANGLE, 0) * (CFrame.new(-HumanoidRootPart.Position) * HumanoidRootPart.CFrame)
+                if not SmoothRotation then self:PlayBlur() end
+                HumanoidRootPart.CFrame = CFrame.new(HumanoidRootPart.Position) * CFrame.Angles(0, MANUAL_ROTATION_ANGLE, 0) * (CFrame.new(-HumanoidRootPart.Position) * HumanoidRootPart.CFrame)
             elseif DirectionState == "Right" then
                 --Turn the player to the right.
-                self:PlayBlur()
-                HumanoidRootPart.CFrame = CFrame.new(HumanoidRootPart.Position) * CFrame.Angles(0, -THUMBSTICK_MANUAL_ROTATION_ANGLE, 0) * (CFrame.new(-HumanoidRootPart.Position) * HumanoidRootPart.CFrame)
+                if not SmoothRotation then self:PlayBlur() end
+                HumanoidRootPart.CFrame = CFrame.new(HumanoidRootPart.Position) * CFrame.Angles(0, -MANUAL_ROTATION_ANGLE, 0) * (CFrame.new(-HumanoidRootPart.Position) * HumanoidRootPart.CFrame)
             end
         end
     end
