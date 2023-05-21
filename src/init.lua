@@ -24,12 +24,14 @@ local NexusVRCharacterModel = {}
 
 -- Convert the string into a instance (hopefully works)
 function ConvertToInstance(str : string) : Instance | nil
-    local success, inst = pcall(function()
+    local inst = nil;
+    local success, err = pcall(function()
         local base = game;
         local list = str:split(".");
         for _, v in pairs(list) do
             base = base[v]
         end
+        inst = base;
     end)
 
     return if not success then nil else inst;
@@ -45,12 +47,14 @@ function setupChar(plr)
 	if isEnabled and (Parent ~= nil and typeof(Parent) == "Instance" and Parent:IsA("BillboardGui")) then
 		-- This should be an BillboardGui unless the developer changed it...
 		-- Fixed by adding a Instance type check
-		local gui : BillboardGui = Parent:Clone();
 		local head = char:WaitForChild("Head");
-
-		gui.PlayerToHideFrom = plr;
-		gui.Adornee = head;
-		gui.Parent = head;
+		if head:FindFirstChild(Parent.Name) == nil then
+			local gui : BillboardGui = Parent:Clone();
+			
+			gui.PlayerToHideFrom = plr;
+			gui.Adornee = head;
+			gui.Parent = head;
+		end
 	end
 	
 	wait(0.1) -- force wait to make sure it's loaded. That and to give the client some time to wait for the event
