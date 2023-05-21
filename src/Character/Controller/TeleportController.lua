@@ -154,6 +154,10 @@ function TeleportController:UpdateCharacter(): ()
         local MANUAL_ROTATION_ANGLE = if SmoothRotation == true then THUMBSTICK_SMOOTH_ROTATION_ANGLE else THUMBSTICK_MANUAL_ROTATION_ANGLE;
 
         if State == "Extended" then
+            if SmoothRotation and DirectionState == "Forward" then
+                ArcData.LastHitPart, ArcData.LastHitPosition = ArcData.Arc:Update(Workspace.CurrentCamera:GetRenderCFrame() * VRInputs[Enum.UserCFrame.Head]:Inverse() * VRInputs[ArcData.UserCFrame])
+            end
+
             if not self.Character.Humanoid.Sit then
                 if DirectionState == "Left" then
                     --Turn the player to the left.
