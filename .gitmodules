@@ -1,12 +1,12 @@
 [submodule "module/Nexus-Instance"]
 	path = module/Nexus-Instance
-	url = https://github.com/TheNexusAvenger/Nexus-Instance
+	url = https://github.com/haawwkeye/Nexus-Instance.git
 [submodule "module/Nexus-Button"]
 	path = module/Nexus-Button
-	url = https://github.com/TheNexusAvenger/Nexus-Button
+	url = https://github.com/haawwkeye/Nexus-Button.git
 [submodule "module/Nexus-VR-Core"]
 	path = module/Nexus-VR-Core
-	url = https://github.com/TheNexusAvenger/Nexus-VR-Core.git
+	url = https://github.com/haawwkeye/Nexus-VR-Core.git
 [submodule "src/NexusVRCharacterModelClientLoader/VirtualKeyboard"]
 	path = src/NexusVRCharacterModelClientLoader/VirtualKeyboard
 	url = https://github.com/haawwkeye/VirtualKeyboard.git
