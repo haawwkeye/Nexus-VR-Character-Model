@@ -3,7 +3,7 @@ TheNexusAvenger
 
 Loads Nexus VR Character Model.
 --]]
---!strict
+--!nocheck
 
 --Client should send replication at 30hz.
 --A buffer is added in case this rate is exceeded
@@ -21,6 +21,19 @@ local Settings = require(script:WaitForChild("State"):WaitForChild("Settings")).
 local RateLimiter = require(script:WaitForChild("State"):WaitForChild("RateLimiter"))
 
 local NexusVRCharacterModel = {}
+
+-- Convert the string into a instance (hopefully works)
+function CovertToInstance(str : string) : Instance | nil
+    local success, inst = pcall(function()
+        local base = game;
+        local list = str:split(".");
+        for _, v in pairs(list) do
+            base = base[v]
+        end
+    end)
+
+    return if not success then nil else inst;
+end
 
 
 
@@ -50,6 +63,51 @@ function NexusVRCharacterModel:Load(): ()
     if ReplicatedStorage:FindFirstChild("NexusVRCharacterModel") then
         return
     end
+
+    local VREnabledRemote = Instance.new("RemoteEvent");
+    VREnabledRemote.Name = "VREnabled";
+
+    VREnabledRemote.OnServerEvent:Connect(function(plr)
+        -- We want to overide the char so wait until it's loaded before you replace it
+        local char = plr.Character or plr.CharacterAdded:Wait();
+        local oldChar = char;
+
+        -- This should be Humanoid so don't worry about that
+        if char:WaitForChild("Humanoid").RigType ~= Enum.HumanoidRigType.R6 then return end;
+
+        local charDesc = game.Players:GetHumanoidDescriptionFromUserId(plr.CharacterAppearanceId)
+        char = game.Players:CreateHumanoidModelFromDescription(charDesc, Enum.HumanoidRigType.R15)
+
+        -- PrimaryPart shouldn't be nil so no need to worry about that
+        char:PivotTo(oldChar.PrimaryPart.CFrame)
+
+        char.Name = plr.Name
+        plr.Character = char
+        char.Parent = workspace
+        oldChar:Destroy()
+
+        local isEnabled = Settings:GetSetting("Appearance.EnableOverheadGui");
+        local Parent = CovertToInstance(Settings:GetSetting("Appearance.OverheadGuiParent"));
+
+        print(isEnabled, typeof(isEnabled), Parent, typeof(Parent));
+
+        if isEnabled and (Parent ~= nil and typeof(Parent) == "Instance" and Parent:IsA("BillboardGui")) then
+            -- This should be an BillboardGui unless the developer changed it...
+            -- Fixed by adding a Instance type check
+            local gui : BillboardGui = Parent:Clone();
+            local head = char:WaitForChild("Head");
+
+            gui.PlayerToHideFrom = plr;
+            gui.Adornee = head;
+            gui.Parent = head;
+        end
+
+        wait(0.1) -- force wait to make sure it's loaded. That and to give the client some time to wait for the event
+        
+        VREnabledRemote:FireClient(plr);
+    end)
+
+    VREnabledRemote.Parent = ReplicatedStorage;
 
     --Rename and move the script to ReplicatedStorage.
     script.Name = "NexusVRCharacterModel"

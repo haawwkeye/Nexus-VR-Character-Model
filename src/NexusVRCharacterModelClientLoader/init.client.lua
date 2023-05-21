@@ -11,6 +11,7 @@ local StarterGui = game:GetService("StarterGui")
 local HttpService = game:GetService("HttpService")
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
+local VRService = game:GetService("VRService");
 
 local NexusVRCharacterModel = ReplicatedStorage:WaitForChild("NexusVRCharacterModel") :: ModuleScript
 local CameraService = (require(NexusVRCharacterModel:WaitForChild("State"):WaitForChild("CameraService")) :: any).GetInstance()
@@ -20,7 +21,7 @@ local DefaultCursorService = (require(NexusVRCharacterModel:WaitForChild("State"
 local Settings = (require(NexusVRCharacterModel:WaitForChild("State"):WaitForChild("Settings")) :: any).GetInstance()
 local UpdateInputs = NexusVRCharacterModel:WaitForChild("UpdateInputs") :: RemoteEvent
 local ReplicationReady = NexusVRCharacterModel:WaitForChild("ReplicationReady") :: RemoteEvent
-
+local VirtualKeyboard;
 
 
 --Load the settings.
@@ -68,11 +69,17 @@ local Character = Players.LocalPlayer.Character
 while not Character do
     Character = Players.LocalPlayer.CharacterAdded:Wait()
 end
-if Character:WaitForChild("Humanoid").RigType == Enum.HumanoidRigType.R6 then
+if Character:WaitForChild("Humanoid").RigType == Enum.HumanoidRigType.R6 and not Settings:GetSetting("Appearance.ForceR15ForR6") then
     local R6Message = (require(NexusVRCharacterModel:WaitForChild("UI"):WaitForChild("R6Message")) :: any).new()
     R6Message:Open()
     return
 end
+
+local remote = game:GetService("ReplicatedStorage"):WaitForChild("VREnabled")
+remote:FireServer();
+remote.OnClientEvent:Wait();
+
+Character = Players.LocalPlayer.Character; -- Make sure it's the correct char since we update on R6
 
 --Set the initial controller and camera.
 --Must happen before loading the settings in the main menu.
@@ -83,12 +90,21 @@ CameraService:SetActiveCamera(Settings:GetSetting("Camera.DefaultCameraOption"))
 local MainMenu = (require(NexusVRCharacterModel:WaitForChild("UI"):WaitForChild("MainMenu")) :: any).GetInstance()
 MainMenu:SetUpOpening()
 
+if Settings:GetSetting("Appearance.FadeOutViewOnCollision") ~= nil then
+    VRService.FadeOutViewOnCollision = Settings:GetSetting("Appearance.FadeOutViewOnCollision");
+end
+
 --Load the backpack.
 if Settings:GetSetting("Extra.NexusVRBackpackEnabled") ~= false then
     task.defer(function()
         local NexusVRBackpack = require(ReplicatedStorage:WaitForChild("NexusVRBackpack")) :: {Load: (any) -> ()}
         NexusVRBackpack:Load()
     end)
+end
+
+-- Setup the keyboard
+if Settings:GetSetting("Extra.VirtualKeyboard") ~= false then
+    VirtualKeyboard = require(script.VirtualKeyboard);
 end
 
 --Start updating the VR character.
