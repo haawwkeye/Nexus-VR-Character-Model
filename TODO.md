@@ -18,6 +18,18 @@ Basically when "dev" is ready to be switched to stable we can just merge it into
 I can probably use the Cloud API to auto update the module aswell if I do it correctly<br>
 I also want to make the build something other than .bat but for now that works
 
+## Menu Tutorial
+
+Maybe make a simple popup that shows you how to enter the menu??
+Kinda like R6Message but with an image(s) showing how to enter the menu
+
+## Add support to new Chat
+
+I have no idea if it currently works on the new chat or not<br>
+But if it doesn't I want to add support for the new system<br>
+Maybe just make a Custom Chat UI and for the keyboard<br>
+It should be fine besides updating the function that sends chat messages
+
 ## Nothing else for now
 
 I can't think of anything else for now besides looking into the FootPlanter and other stuff
