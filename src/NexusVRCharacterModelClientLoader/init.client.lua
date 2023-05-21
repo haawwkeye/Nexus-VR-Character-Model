@@ -75,11 +75,18 @@ if Character:WaitForChild("Humanoid").RigType == Enum.HumanoidRigType.R6 and not
     return
 end
 
-local remote = game:GetService("ReplicatedStorage"):WaitForChild("VREnabled")
-remote:FireServer();
-remote.OnClientEvent:Wait();
+function CharAdded(char)
+    Character = char;
 
-Character = Players.LocalPlayer.Character; -- Make sure it's the correct char since we update on R6
+    local remote = game:GetService("ReplicatedStorage"):WaitForChild("VREnabled")
+    remote:FireServer();
+    remote.OnClientEvent:Wait();
+
+    Character = Players.LocalPlayer.Character; -- Make sure it's the correct char since we update on R6
+end
+
+Players.LocalPlayer.CharacterAdded:Connect(CharAdded)
+CharAdded(Character)
 
 --Set the initial controller and camera.
 --Must happen before loading the settings in the main menu.
