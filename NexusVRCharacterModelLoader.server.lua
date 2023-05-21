@@ -5,7 +5,7 @@ Loads Nexus VR Character Model.
 GitHub: TheNexusAvenger/Nexus-VR-Character-Model
 --]]
 
-local headGui = script.Parent:WaitForChild("VRHeadGui", 3);
+local headGui = script:WaitForChild("VRHeadGui", 3);
 if headGui == nil then
     headGui = {}
     function headGui:GetFullName()

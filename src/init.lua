@@ -23,7 +23,7 @@ local RateLimiter = require(script:WaitForChild("State"):WaitForChild("RateLimit
 local NexusVRCharacterModel = {}
 
 -- Convert the string into a instance (hopefully works)
-function CovertToInstance(str : string) : Instance | nil
+function ConvertToInstance(str : string) : Instance | nil
     local success, inst = pcall(function()
         local base = game;
         local list = str:split(".");
@@ -38,7 +38,7 @@ end
 function setupChar(plr)
 	local char = plr.Character;
 	local isEnabled = Settings:GetSetting("Appearance.EnableOverheadGui");
-	local Parent = CovertToInstance(Settings:GetSetting("Appearance.OverheadGuiParent"));
+	local Parent = ConvertToInstance(Settings:GetSetting("Appearance.OverheadGuiParent"));
 
 	print(isEnabled, typeof(isEnabled), Parent, typeof(Parent));
 
