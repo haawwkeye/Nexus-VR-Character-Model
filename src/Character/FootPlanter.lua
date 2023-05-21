@@ -8,6 +8,7 @@ with minimal changes. It really needs to be replaced by
 someone who better unstands foot placement. No automated
 tests are done on this code.
 --]]
+--!nocheck
 
 local FootPlanter = {}
 
@@ -116,7 +117,7 @@ function FootPlanter:CreateSolver(CenterPart,ScaleValue)
 	local mLegs = {}
 	local lastCF
 	local function initLegs()
-		local cf = flatten(getBaseCFrame(CenterPart.CFrame))
+		local cf = flatten(getBaseCFrame())
 		lastCF = cf
 		mRightLeg = {
 			OffsetModifier = CFnew(-LEG_GAP/2, 0, 0);
@@ -410,7 +411,7 @@ function FootPlanter:CreateSolver(CenterPart,ScaleValue)
 							leg.StepCycle = 0
 						end
 					else
-						
+						continue
 					end
 				end
 			else

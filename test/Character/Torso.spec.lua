@@ -3,7 +3,7 @@ TheNexusAvenger
 
 Tests the Torso class.
 --]]
---!strict
+--!nocheck
 
 local NexusVRCharacterModel = game:GetService("ServerScriptService"):WaitForChild("NexusVRCharacterModelLoader"):WaitForChild("MainModule"):WaitForChild("NexusVRCharacterModel")
 local Torso = require(NexusVRCharacterModel:WaitForChild("Character"):WaitForChild("Torso"))

@@ -3,7 +3,7 @@ TheNexusAvenger
 
 Tests the Appendage class.
 --]]
---!strict
+--!nocheck
 --$NexusUnitTestExtensions
 
 local NexusVRCharacterModel = game:GetService("ServerScriptService"):WaitForChild("NexusVRCharacterModelLoader"):WaitForChild("MainModule"):WaitForChild("NexusVRCharacterModel")

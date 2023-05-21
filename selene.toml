@@ -10,3 +10,5 @@ parenthese_conditions = "allow"
 multiple_statements = "allow"
 # script.Parent = parent is not allowed if this isn't set to allow??
 incorrect_standard_library_use = "allow"
+# spec.lua stuff
+undefined_variable = "allow"

@@ -3,7 +3,7 @@ TheNexusAvenger
 
 Tests the RateLimiter class.
 --]]
---!strict
+--!nocheck
 
 local NexusVRCharacterModel = game:GetService("ServerScriptService"):WaitForChild("NexusVRCharacterModelLoader"):WaitForChild("MainModule"):WaitForChild("NexusVRCharacterModel")
 local RateLimiter = require(NexusVRCharacterModel:WaitForChild("State"):WaitForChild("RateLimiter"))

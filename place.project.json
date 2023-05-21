@@ -2,6 +2,22 @@
     "name": "Nexus-VR-Character-Model",
     "tree": {
         "$className": "DataModel",
+        "Workspace": {
+            "$className": "Workspace",
+            "Baseplate": {
+                "$className": "Part",
+                "$properties": {
+                    "Color": [0.388235294, 0.37254902, 0.384313725],
+
+                    "Locked": true,
+
+                    "Size": [512, 20, 512],
+                    "Position": [0, 0, 0],
+
+                    "Anchored": true
+                }
+            }
+        },
         "ServerScriptService": {
             "$className": "ServerScriptService",
             "NexusVRCharacterModelLoader": {

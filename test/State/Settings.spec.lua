@@ -3,7 +3,7 @@ TheNexusAvenger
 
 Tests the Settings class.
 --]]
---!strict
+--!nocheck
 
 local NexusVRCharacterModel = game:GetService("ServerScriptService"):WaitForChild("NexusVRCharacterModelLoader"):WaitForChild("MainModule"):WaitForChild("NexusVRCharacterModel")
 local Settings = require(NexusVRCharacterModel:WaitForChild("State"):WaitForChild("Settings"))
