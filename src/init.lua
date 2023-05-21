@@ -35,6 +35,28 @@ function CovertToInstance(str : string) : Instance | nil
     return if not success then nil else inst;
 end
 
+function setupChar(plr)
+	local char = plr.Character;
+	local isEnabled = Settings:GetSetting("Appearance.EnableOverheadGui");
+	local Parent = CovertToInstance(Settings:GetSetting("Appearance.OverheadGuiParent"));
+
+	print(isEnabled, typeof(isEnabled), Parent, typeof(Parent));
+
+	if isEnabled and (Parent ~= nil and typeof(Parent) == "Instance" and Parent:IsA("BillboardGui")) then
+		-- This should be an BillboardGui unless the developer changed it...
+		-- Fixed by adding a Instance type check
+		local gui : BillboardGui = Parent:Clone();
+		local head = char:WaitForChild("Head");
+
+		gui.PlayerToHideFrom = plr;
+		gui.Adornee = head;
+		gui.Parent = head;
+	end
+	
+	wait(0.1) -- force wait to make sure it's loaded. That and to give the client some time to wait for the event
+
+	ReplicatedStorage:WaitForChild("VREnabled"):FireClient(plr);
+end
 
 
 --[[
@@ -73,7 +95,7 @@ function NexusVRCharacterModel:Load(): ()
         local oldChar = char;
 
         -- This should be Humanoid so don't worry about that
-        if char:WaitForChild("Humanoid").RigType ~= Enum.HumanoidRigType.R6 then return end;
+        if char:WaitForChild("Humanoid").RigType ~= Enum.HumanoidRigType.R6 then return setupChar(plr) end;
 
         local charDesc = game.Players:GetHumanoidDescriptionFromUserId(plr.CharacterAppearanceId)
         char = game.Players:CreateHumanoidModelFromDescription(charDesc, Enum.HumanoidRigType.R15)
@@ -86,25 +108,7 @@ function NexusVRCharacterModel:Load(): ()
         char.Parent = workspace
         oldChar:Destroy()
 
-        local isEnabled = Settings:GetSetting("Appearance.EnableOverheadGui");
-        local Parent = CovertToInstance(Settings:GetSetting("Appearance.OverheadGuiParent"));
-
-        print(isEnabled, typeof(isEnabled), Parent, typeof(Parent));
-
-        if isEnabled and (Parent ~= nil and typeof(Parent) == "Instance" and Parent:IsA("BillboardGui")) then
-            -- This should be an BillboardGui unless the developer changed it...
-            -- Fixed by adding a Instance type check
-            local gui : BillboardGui = Parent:Clone();
-            local head = char:WaitForChild("Head");
-
-            gui.PlayerToHideFrom = plr;
-            gui.Adornee = head;
-            gui.Parent = head;
-        end
-
-        wait(0.1) -- force wait to make sure it's loaded. That and to give the client some time to wait for the event
-        
-        VREnabledRemote:FireClient(plr);
+        setupChar(plr)
     end)
 
     VREnabledRemote.Parent = ReplicatedStorage;
