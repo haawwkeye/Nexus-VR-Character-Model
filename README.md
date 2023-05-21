@@ -1,10 +1,12 @@
 # Nexus-VR-Character-Model
+
 Nexus VR Character Model replaces the default
 controls and camera of R15 Roblox characters
 and maps the character to the player's headset
 and hand controllers.
 
 ## Menu
+
 To access the menu, the left controller must be
 rotated counter-clockwise and the right controller
 must be rotated clockwise so that they are facing
@@ -13,6 +15,7 @@ This gesture is used to be out of the way of most
 games.
 
 ## Limitations
+
 * Optimizations for specific headsets and controllers
   can't be made because the hardware is not communicated
   to the developer. Some headsets, like the HP Reverb G2,
@@ -25,6 +28,7 @@ games.
   not know about it.
 
 ## Setup
+
 The repository can be synced into Roblox using
 [Rojo](https://github.com/rojo-rbx/rojo), which
 will include the [loader](NexusVRCharacterModelLoader.server.lua)
@@ -38,6 +42,7 @@ website does not include the `MainModule`, so
 it will default to fetching the latest version.
 
 ## [Nexus-VR-Core](https://github.com/thenexusAvenger/nexus-vr-core)
+
 Nexus VR Core is used for user interfaces
 in Nexus VR Character Model. When Nexus VR
 Character Model is loaded, a module named
@@ -47,12 +52,15 @@ to make user interfaces that can be interacted
 with by VR users.
 
 ## API
+
 See [included-apis.md](docs/included-apis.md) for the APIs
 that can be referenced.
 
 ## Contributing
+
 Both issues and pull requests are accepted for this project.
 
 ## License
-Nexus VR Character Model is available under the terms of the MIT 
+
+Nexus VR Character Model is available under the terms of the MIT
 License. See [LICENSE](LICENSE) for details.

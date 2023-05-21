@@ -1,9 +1,11 @@
 # API Design
+
 This document covers the recommended design for exposing APIs
 through Neuxs VR Character Model. See [included-apis.md](included-apis.md)
 for the APIs that are included.
 
-# Problem (V.2.3.X and Earlier)
+## Problem (V.2.3.X and Earlier)
+
 Earlier versions of Nexus VR Character Model do not have
 a proper, long-term solution for managing APIs. Changing
 internal parts of Nexus VR Character Model, including
@@ -12,7 +14,8 @@ knowing about and relying on the internal structure of
 the modules. This risks breaking games in the future if the
 structure has to change for new features.
 
-# Solution
+## Solution
+
 With Nexus VR Character Model V.2.4.0, a new `Api` module
 was introduced to centralize functions and properties
 that are controlled by sub-modules and add-ons
@@ -22,14 +25,17 @@ or equivalent. The `Api` value is guaranteed to exist
 when the module is `require`d or is guaranteed to be
 `nil` if it is an older version.
 
-## API Helper Functions/Events
+### API Helper Functions/Events
+
 Any registered APIs can be indexed directly after being
 registered without going through any helper functions for
 reading. [See the included APIs for the helper functions](./included-apis.md#referencing-apis).
 
-## Proxy Object Design
+### Proxy Object Design
+
 The obvious way to register an API is to register an object
 that directly handles the object. However:
+
 - This only works if the object is persistent. Ephemeral
   objects won't work because `Register` will block attempts
   to overwrite an API. This is meant to provide safety for
@@ -65,13 +71,15 @@ of both what the API controls and where the functions
 are even stored. Currently, Nexus VR Backpack would need
 to rely on the specifics of the `ControlService` to work.
 
-# Design Benefits
+## Design Benefits
+
 - Exposed APIs remove the reliance on the underlying structure
   of the modules and expose only what is meant to be public.
 - Add-ons like Nexus VR Backpack can interact with Nexus VR
   Character Model as well as store API in a similar way.
 
-# Design Drawbacks
+## Design Drawbacks
+
 - This does not work with pre-V.2.4.0 releases. Add-ons need
   to either design to limit features or not work if a static
   version or a fork is used.
