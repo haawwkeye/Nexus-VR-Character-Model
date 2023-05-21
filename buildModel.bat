@@ -1,6 +1,6 @@
 @echo off
 
 @REM Build the roblox place for testing
-rojo build -o RobloxVR.rbxmx
+rojo build -o %Name%.rbxmx
 
 exit
