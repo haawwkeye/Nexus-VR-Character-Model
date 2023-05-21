@@ -19,7 +19,7 @@ local Configuration = {
         -- This might break your game so make sure the game supports R15 before enabling this
         -- Plus this loads the character like a morth so it might not trigger character added idk
         -- Haven't tested that
-        ForceR15ForR6 = false,
+        ForceR15ForR6 = true,
 
         -- Should there be an OverheadGui?
         -- This is the VRHeadGui if you want to edit it
