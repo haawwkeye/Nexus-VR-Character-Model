@@ -12,3 +12,7 @@ multiple_statements = "allow"
 incorrect_standard_library_use = "allow"
 # spec.lua stuff
 undefined_variable = "allow"
+# Roblox Util issues...
+if_same_then_else = "allow"
+# sadly this doesn't work
+# parse_error = "allow"

@@ -5,8 +5,36 @@ Loads Nexus VR Character Model.
 GitHub: TheNexusAvenger/Nexus-VR-Character-Model
 --]]
 
+local headGui = script.Parent:WaitForChild("VRHeadGui", 3);
+if headGui == nil then
+    headGui = {}
+    function headGui:GetFullName()
+        return nil
+    end
+end
+
 local Configuration = {
     Appearance = {
+        -- Should we force R15 if they use R6?
+        -- This might break your game so make sure the game supports R15 before enabling this
+        -- Plus this loads the character like a morth so it might not trigger character added idk
+        -- Haven't tested that
+        ForceR15ForR6 = false,
+
+        -- Should there be an OverheadGui?
+        -- This is the VRHeadGui if you want to edit it
+        -- if missing there just won't be an Gui
+        EnableOverheadGui = true,
+        OverheadGuiParent = headGui:GetFullName(),
+
+        -- This is for the Roblox Value.
+		-- I might attempt to make a custom version that's better but for now might be better to just wait for roblox.
+		-- When true, a VR player's view fades to black when their head collides with an object.
+		-- This property prevents players from being able to see through walls while in VR.
+        -- Disabling this will fix the screen going black randomly when you collide with something.
+        -- https://devforum.roblox.com/t/vr-screen-becomes-black-due-to-non-transparent-character/2215099
+		FadeOutViewOnCollision = true,
+
         --Transparency of the character when in first person.
         LocalCharacterTransparency = 0.5,
 
@@ -76,6 +104,11 @@ local Configuration = {
         --will be inserted into the game and loaded. This replaces
         --the default Roblox backpack.
         NexusVRBackpackEnabled = true,
+        -- If true, VirtualKeyboard (https://github.com/haawwkeye/VirtualKeyboard)
+        -- will be load the VirtualKeyboard that's in CoreGui (with some fixes to make it work better)
+        -- Certain elements like the "Voice to Text" will not work
+        -- I have no idea what else to say here so yea that's it
+        VirtualKeyboard = true,
     },
 }
 
@@ -87,6 +120,8 @@ local MainModule = script:FindFirstChild("MainModule")
 if MainModule then
     NexusVRCharacterModelModule = require(MainModule)
 else
+    -- This is the default as I'm not planning on make a model for now
+    -- aka MainModule is required
     NexusVRCharacterModelModule = require(10728814921)
 end
 
