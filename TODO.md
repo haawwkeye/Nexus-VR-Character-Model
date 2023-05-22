@@ -20,7 +20,7 @@ I also want to make the build something other than .bat but for now that works
 
 ## Menu Tutorial
 
-Maybe make a simple popup that shows you how to enter the menu??
+Maybe make a simple popup that shows you how to enter the menu??<br>
 Kinda like R6Message but with an image(s) showing how to enter the menu
 
 ## Add support to new Chat
@@ -32,5 +32,5 @@ It should be fine besides updating the function that sends chat messages
 
 ## Nothing else for now
 
-I can't think of anything else for now besides looking into the FootPlanter and other stuff
+I can't think of anything else for now besides looking into the FootPlanter and other stuff<br>
 since we have the new VR API stuff
