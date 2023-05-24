@@ -17,7 +17,6 @@ local RunService = game:GetService("RunService")
 local TweenService = game:GetService("TweenService")
 
 local NexusVRCharacterModel = script.Parent.Parent
-local NexusEvent = require(NexusVRCharacterModel:WaitForChild("NexusInstance"):WaitForChild("Event"):WaitForChild("NexusEvent"))
 local Settings = require(NexusVRCharacterModel:WaitForChild("State"):WaitForChild("Settings")).GetInstance()
 local VRInputService = require(NexusVRCharacterModel:WaitForChild("State"):WaitForChild("VRInputService")).GetInstance()
 local ApiBaseView = require(NexusVRCharacterModel:WaitForChild("UI"):WaitForChild("View"):WaitForChild("ApiBaseView"))
@@ -429,6 +428,8 @@ function MainMenu:Toggle(): ()
         self.ScreenGui.Enabled = true
     end
 
+    MainMenu.OnToggled:Fire(self.ScreenGui.Enabled);
+
     --Tween the field of view.
     local StartTime = tick()
     while tick() - StartTime < MENU_OPEN_TIME do
@@ -508,6 +509,7 @@ end
 Main Menu toggled event
 --]]
 
-MainMenu.OnToggled = NexusEvent.new()
+MainMenu.OnToggled = Instance.new("BindableEvent", script);
+MainMenu.OnToggled.Name = "MenuToggled";
 
 return MainMenu

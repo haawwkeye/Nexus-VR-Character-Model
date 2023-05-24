@@ -80,8 +80,7 @@ function Tutorial.new(): any
     CloseText.Text = "Ok"
 
     CloseButton.MouseButton1Down:Connect(function()
-        self:SetOpen(false)
-        MessageScreenGui:Destroy()
+        self:Close()
     end)
 
     --Parent the message.

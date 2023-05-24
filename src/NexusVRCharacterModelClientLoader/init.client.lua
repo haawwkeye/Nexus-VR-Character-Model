@@ -97,6 +97,14 @@ CameraService:SetActiveCamera(Settings:GetSetting("Camera.DefaultCameraOption"))
 local MainMenu = (require(NexusVRCharacterModel:WaitForChild("UI"):WaitForChild("MainMenu")) :: any).GetInstance()
 MainMenu:SetUpOpening()
 
+--Start the Tutorial Message
+local TutorialMessage = (require(NexusVRCharacterModel:WaitForChild("UI"):WaitForChild("Tutorial")) :: any).new()
+TutorialMessage:Open()
+
+MainMenu.OnToggled.Event:Once(function()
+    TutorialMessage:Close()
+end)
+
 if Settings:GetSetting("Appearance.FadeOutViewOnCollision") ~= nil then
     VRService.FadeOutViewOnCollision = Settings:GetSetting("Appearance.FadeOutViewOnCollision");
 end
