@@ -2,8 +2,9 @@
 
 ## Better Walking
 
-For example instead of automatically turning I want you to just be running into the wall<br>
-I have no idea where/how to change this
+This might be a roblox thing so for now I won't look into it<br>
+~~For example instead of automatically turning I want you to just be running into the wall<br>
+I have no idea where/how to change this~~
 
 ## Virual Keyboard
 
@@ -33,4 +34,7 @@ It should be fine besides updating the function that sends chat messages
 ## Nothing else for now
 
 I can't think of anything else for now besides looking into the FootPlanter and other stuff<br>
-since we have the new VR API stuff
+~~since we have the new VR API stuff~~<br>
+Turns out you cannot access the player height yet?<br>
+I attempted and realized it's RobloxScriptSecurity so...<br>
+Won't do that for now

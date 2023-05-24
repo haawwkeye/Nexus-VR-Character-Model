@@ -17,6 +17,7 @@ local RunService = game:GetService("RunService")
 local TweenService = game:GetService("TweenService")
 
 local NexusVRCharacterModel = script.Parent.Parent
+local NexusEvent = require(NexusVRCharacterModel:WaitForChild("NexusInstance"):WaitForChild("Event"):WaitForChild("NexusEvent"))
 local Settings = require(NexusVRCharacterModel:WaitForChild("State"):WaitForChild("Settings")).GetInstance()
 local VRInputService = require(NexusVRCharacterModel:WaitForChild("State"):WaitForChild("VRInputService")).GetInstance()
 local ApiBaseView = require(NexusVRCharacterModel:WaitForChild("UI"):WaitForChild("View"):WaitForChild("ApiBaseView"))
@@ -503,6 +504,10 @@ function MainMenu:UpdateVisibleView(): ()
     end
 end
 
+--[[
+Main Menu toggled event
+--]]
 
+MainMenu.OnToggled = NexusEvent.new()
 
 return MainMenu
