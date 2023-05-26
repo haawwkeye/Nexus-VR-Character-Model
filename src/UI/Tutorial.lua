@@ -8,7 +8,7 @@ Tutorial Message
 local MESSAGE_OPEN_TIME = 0.25
 
 
-
+local TS = game:GetService("TweenService");
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
@@ -30,6 +30,31 @@ Creates the R6 message.
 function Tutorial.new(): any
     local self = {}
     setmetatable(self, Tutorial)
+
+
+    local function createController(position : UDim2 | nil, size : UDim2 | nil) : ImageLabel
+        local Controller = Instance.new("ImageLabel")
+        local ControllerStroke = Instance.new("ImageLabel")
+
+        Controller.Name = "Controller"
+        Controller.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        Controller.BackgroundTransparency = 1
+        Controller.ImageTransparency = 0.5
+        Controller.Position = position or UDim2.new(0.25, 0, 0.15, 0)
+        Controller.Size = size or UDim2.new(0.55, 0, 0.7, 0)
+        Controller.Image = "http://www.roblox.com/asset/?id=13548990719"
+        Controller.ImageColor3 = Color3.fromRGB(0, 0, 0)
+
+        ControllerStroke.Name = "ControllerStroke"
+        ControllerStroke.Parent = Controller
+        ControllerStroke.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        ControllerStroke.BackgroundTransparency = 1.000
+        ControllerStroke.Position = UDim2.new(-0.025, 0, -0.015, 0)
+        ControllerStroke.Size = UDim2.new(1, 0, 1, 0)
+        ControllerStroke.Image = "http://www.roblox.com/asset/?id=13548990719"
+
+        return Controller
+    end
 
     --Set up the ScreenGui.
     local MessageScreenGui = ScreenGui.new()
@@ -53,12 +78,43 @@ function Tutorial.new(): any
     UpperText.Size = UDim2.new(0.8, 0, 0.1, 0)
     UpperText.Position = UDim2.new(0.1, 0, 0.25, 0)
     UpperText.Font = Enum.Font.SourceSansBold
-    UpperText.Text = ""
+    UpperText.Text = "Tutorial"
     UpperText.TextScaled = true
     UpperText.TextColor3 = Color3.fromRGB(255, 255, 255)
     UpperText.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
     UpperText.TextStrokeTransparency = 0
     UpperText.Parent = MessageScreenGui:GetContainer()
+
+    -- Create the Controller images
+    local LeftController = createController(UDim2.new(0.1, 0, 0.625, 0), UDim2.new(0.2, 0, 0.3, 0));
+    local RightController = createController(UDim2.new(0.7, 0, 0.625, 0), UDim2.new(0.2, 0, 0.3, 0));
+
+    -- This is 100% not a good idea but I'm too lazy to find out a better way Lol
+    -- Plus it works so /shrug
+    local playing = false;
+
+    local function playAnimation(rot : number, animTime : number)
+        if playing or not MessageScreenGui.Enabled then return end;
+        playing = true;
+        
+        local TI = TweenInfo.new(animTime, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut);
+        local tween1 = TS:Create(LeftController, TI, {Rotation = rot});
+        local tween2 = TS:Create(RightController, TI, {Rotation = -rot});
+
+        tween2.Completed:Once(function()
+            task.spawn(function()
+                task.wait(2);
+                playing = false;
+                playAnimation(if rot == 180 then 0 else 180, if rot == 180 then 0.8 else 1);
+            end)
+        end)
+
+        tween1:Play();
+        tween2:Play();
+    end
+
+    LeftController.Parent = MessageScreenGui:GetContainer();
+    RightController.Parent = MessageScreenGui:GetContainer();
 
     local LowerText = Instance.new("TextLabel")
     LowerText.BackgroundTransparency = 1
@@ -81,6 +137,11 @@ function Tutorial.new(): any
 
     CloseButton.MouseButton1Down:Connect(function()
         self:Close()
+    end)
+
+    task.spawn(function()
+        task.wait(2)
+        playAnimation(180, 1)
     end)
 
     --Parent the message.
